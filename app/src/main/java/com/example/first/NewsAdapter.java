@@ -1,6 +1,11 @@
 package com.example.first;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +14,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
@@ -58,7 +67,21 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         holder.newsTitle.setText(news.getTitle());
         holder.newsAuthor.setText(news.getAuthor());
         if(news.getImageId() > 0) {
-            holder.newsImage.setImageResource(news.getImageId());
+//            holder.newsImage.setImageResource(news.getImageId());
+
+            Bitmap bitmap = getLocalBitmap("/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv/assets/" + news.getCover());
+//            Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream("../../../res/drawable/" + news.getCover()));
+            holder.newsImage.setImageBitmap(bitmap);
+        }
+    }
+
+    private Bitmap getLocalBitmap(String s) {
+        try {
+            FileInputStream fis = new FileInputStream(s);
+            return BitmapFactory.decodeStream(fis);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
