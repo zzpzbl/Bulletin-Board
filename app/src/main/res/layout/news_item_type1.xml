@@ -10,6 +10,7 @@
         android:id="@+id/newsImage"
         android:layout_width="0dp"
         android:layout_height="80dp"
+        android:src="@drawable/event_02"
         android:layout_weight="1"
         android:layout_marginLeft="35dp"
         android:scaleType="fitCenter" />
