@@ -159,4 +159,6 @@
     <color name="transparent">#00000000</color> <!--透明 -->
     <color name="niceblue">#02ffbc</color> <!--透明 -->
     <color name="mazure">#fadcfafa</color> <!--天蓝色 -->
+
+    <color name="textInputLayout">#96ffffff</color>
 </resources>

@@ -4,7 +4,6 @@ import java.util.List;
 
 public class News {
     private String id;
-    private int imageId;
     private String title;
     private String author;
     private String publishTime;
@@ -13,14 +12,6 @@ public class News {
     private List<String> covers;
 
     public News() {
-    }
-
-    public int getImageId() {
-        return imageId;
-    }
-
-    public void setImageId(int imageId) {
-        this.imageId = imageId;
     }
 
     public News(String id) {

@@ -1,5 +1,6 @@
 package com.example.first;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -9,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -19,20 +19,22 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
+import com.alibaba.fastjson.JSON;
+
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+import static android.widget.NumberPicker.OnScrollListener.SCROLL_STATE_IDLE;
+
+public class MainActivity extends AppCompatActivity{
 
     private List<News> newsList = new ArrayList<>();
 
@@ -40,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //获得读取存储权限
         if(PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{ Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         } else {
@@ -53,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     private void loadData() throws FileNotFoundException, UnsupportedEncodingException {
 
         initNews();
@@ -62,7 +67,20 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(
                 MainActivity.this, DividerItemDecoration.VERTICAL));
-        NewsAdapter adapter = new NewsAdapter(newsList);
+        final NewsAdapter adapter = new NewsAdapter(this, newsList);
+        //对 recyclerview 进行监听，提升滑动流畅度
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                if(newState == SCROLL_STATE_IDLE) {
+                    adapter.setScrolling(false);
+                    adapter.notifyDataSetChanged();
+                } else {
+                    adapter.setScrolling(true);
+                }
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
         recyclerView.setAdapter(adapter);
     }
     @Override
@@ -85,23 +103,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void parseJSONWithJSONObject(String jsonData) {
+    private JSONArray parseJSONWithJSONObject(String jsonData) {
         try {
             JSONArray jsonArray = new JSONArray(jsonData);
             for(int i = 0; i < jsonArray.length(); ++i) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String id = jsonObject.getString("id");
                 String title = jsonObject.getString("title");
-                Log.d("MainActivity", "id is " + id);
-                Log.d("MainActivity", "title is " + title);
             }
+            return jsonArray;
         } catch (JSONException e) {
             e.printStackTrace();
+            return null;
         }
     }
 
     private void initNews() throws FileNotFoundException, UnsupportedEncodingException {
-//        Log.v("Tagggg", "777");
         File JSONFile = new File("/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv/assets/metadata.json");
         FileReader fileReader = new FileReader(JSONFile);
         Reader reader = new InputStreamReader(new FileInputStream(JSONFile), "utf-8");
@@ -109,34 +126,47 @@ public class MainActivity extends AppCompatActivity {
         String jsonStr = "";
         StringBuffer stringBuffer = new StringBuffer();
         try {
-
             while((ch = reader.read()) != -1) {
                 stringBuffer.append((char) ch);
             }
             fileReader.close();
             reader.close();
             jsonStr = stringBuffer.toString();
-            parseJSONWithJSONObject(jsonStr);
-        }catch (IOException e) {
+//            com.alibaba.fastjson.JSONObject obj = JSON.parseObject(jsonStr);
+            JSONArray jsonArray = parseJSONWithJSONObject(jsonStr);
+            for(int i = 0; i < jsonArray.length(); ++i) {
+                News news = new News();
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                String id = jsonObject.getString("id");
+                String title = jsonObject.getString("title");
+                String author = jsonObject.getString("author");
+                String publishTime = jsonObject.getString("publishTime");
+                String cover = "";
+                List<String> covers = new ArrayList<>();
+                int type = jsonObject.getInt("type");
+                if(jsonObject.has("cover")) {
+                    cover = jsonObject.getString("cover");
+                }
+                if(jsonObject.has("covers")) {
+                    covers = JSON.parseArray(jsonObject.getString("covers"), String.class);
+                }
+
+                news.setType(type);
+                news.setCover(cover);
+                news.setAuthor(author);
+                news.setCovers(covers);
+                news.setTitle(title);
+                news.setPublishTime(publishTime);
+                news.setId(id);
+                Log.d("id", id);
+                Log.d("author", author);
+                newsList.add(news);
+            }
+
+        }catch (IOException | JSONException e) {
             e.printStackTrace();
         }
 
-
-
-        News news = new News();
-        news.setAuthor("bytebance");
-        news.setTitle("2020字节跳动全球员工摄影大赛邀请函");
-        news.setType(0);
-        news.setImageId(-1);
-        newsList.add(news);
-        newsList.add(news);
-        News news1 = new News();
-        news1.setTitle("Lark.巡洋计划开发者大赛圆满结束");
-        news1.setType(1);
-        news1.setAuthor("bytedance");
-        news1.setImageId(R.drawable.event_02);
-        news1.setCover("event_02.png");
-        newsList.add(news1);
         Log.v("TAGgggggg", Environment.getExternalStorageDirectory().getAbsolutePath());
     }
 }

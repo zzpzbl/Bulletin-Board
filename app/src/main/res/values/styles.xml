@@ -9,6 +9,14 @@
         <item name="android:listDivider">@drawable/divider_bg</item>
     </style>
 
+    <style name="EditScreenTextInputLayoutStyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorControlNormal">@color/textInputLayout</item>
+        <item name="colorControlActivated">@color/textInputLayout</item>
+        <item name="colorControlHighlight">@color/textInputLayout</item>
+        <item name="colorAccent">@color/textInputLayout</item>
+        <item name="android:textColorHint">@color/textInputLayout</item>
+    </style>
+
     <string name="dcloud_permission_write_external_storage_message">存储权限提示语</string>
     <string name="dcloud_permission_read_phone_state_message">读取手机状态权限提示语</string>
 </resources>
