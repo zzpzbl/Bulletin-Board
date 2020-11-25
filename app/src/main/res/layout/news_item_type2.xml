@@ -45,7 +45,6 @@
         android:layout_height="94dp"
         android:layout_gravity="start"
         android:contentDescription="@string/todo"
-        app:srcCompat="@drawable/tancheng"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.865"

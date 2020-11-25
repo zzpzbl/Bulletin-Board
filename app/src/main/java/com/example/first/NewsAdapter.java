@@ -167,16 +167,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         });
     }
 
-    private Bitmap getLocalBitmap(String s) {
-        try {
-            FileInputStream fis = new FileInputStream(s);
-            return BitmapFactory.decodeStream(fis);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     @Override
     public int getItemCount() { return newsList.size(); }
 
