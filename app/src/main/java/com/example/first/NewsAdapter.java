@@ -44,6 +44,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     private SharedPreferences preferences;
 
     protected boolean isScrolling = false;
+////
 
     public void setScrolling(boolean scrolling) {
         isScrolling = scrolling;
