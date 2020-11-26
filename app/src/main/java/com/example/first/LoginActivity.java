@@ -30,6 +30,14 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText et_username;
@@ -82,43 +90,54 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void sendRequestWithHttpURLConnection() {
-        //开启线程来发起网络请求
-        new Thread(new Runnable() {
+        String username = et_username.toString();
+        String password = et_password.toString();
+        OkHttpClient client = new OkHttpClient();
+        RequestBody requestBody = new FormBody.Builder()
+                .add("username", username)
+                .add("password", password)
+                .build();
+
+        final Request request = new Request.Builder()
+                .url("https://vcapi.lvdaqian.cn/login")
+                .post(requestBody)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
             @Override
-            public void run() {
-                HttpURLConnection connection = null;
-                BufferedReader reader = null;
-                try {
-                    String username = et_username.toString();
-                    String password = et_password.toString();
-                    URL url = new URL("https://vcapi.lvdaqian.cn/login");
-                    connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("POST");
-                    DataOutputStream dataOutputStream = new DataOutputStream(connection.getOutputStream());
-                    dataOutputStream.writeBytes("username=" + username + "&password=" + password);
-                    connection.setConnectTimeout(8000);
-                    connection.setReadTimeout(8000);
-                    InputStream inputStream = connection.getInputStream();
-                    //下面对获得的输入流进行读取
-                    reader = new BufferedReader(new InputStreamReader(inputStream));
-                    StringBuilder response = new StringBuilder();
-                    String line;
-                    while((line = reader.readLine()) != null) {
-                        response.append(line);
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(response.isSuccessful()) {
+                    Log.d("kwwl","response.code()=="+response.code());
+//                                Log.d("kwwl","response.body().string()==" + response.body().string());
+                    String str = response.body().string();
+                    JSONObject jsonObject = null;
+                    try {
+                        jsonObject = new JSONObject(str);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    String ret = null;
+                    try {
+                        ret = jsonObject.getString("message");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
 
-                    Log.d("return ", response.toString());
-
-                    JSONObject jsonObject = new JSONObject(response.toString());
-
-                    String ret = jsonObject.getString("message");
-//                    Log.v("ret ", ret);
                     if(ret.equals("Get token success")) {
-//                        Log.v("zms", "nice!");
+                        Log.v("zms", "nice!");
                         SharedPreferences.Editor editor = null;
                         //获取haredPreferences.Editor对象，尝试写数据
                         editor = preferences.edit();
-                        editor.putString("TOKEN", jsonObject.getString("token"));
+                        try {
+                            editor.putString("TOKEN", jsonObject.getString("token"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                         editor.apply();
                         String token = preferences.getString("TOKEN", "");
                         Log.e("Token", token + " ");
@@ -128,22 +147,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         Log.v("zms", "sb");
                     }
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    if (reader != null) {
-                        try {
-                            reader.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    if (connection != null) {
-                        connection.disconnect();
-                    }
+                }
+                else {
+                    Log.e("zms","failed");
                 }
             }
-        }).start();
+        });
     }
 
     @Override

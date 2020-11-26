@@ -2,13 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_width="361dp"
+        android:layout_height="69dp"
         android:layout_weight="3"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -17,13 +18,14 @@
 
         <TextView
             android:id="@+id/newsTitle"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="82dp"
+            android:layout_marginStart="35dp"
             android:layout_marginLeft="35dp"
             android:layout_weight="1"
             android:gravity="left|center"
             android:textColor="@color/red"
-            android:textSize="18sp" />
+            android:textSize="20sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,6 +37,7 @@
                 android:id="@+id/newsAuthor"
                 android:layout_width="157dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="35dp"
                 android:layout_marginLeft="35dp"
                 android:layout_weight="1"
                 android:gravity="left|center"
@@ -44,6 +47,7 @@
                 android:id="@+id/newsPublishTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="35dp"
                 android:layout_marginLeft="35dp"
                 android:layout_weight="2"
                 android:gravity="left|center"
@@ -51,13 +55,24 @@
         </LinearLayout>
     </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout">
-    </TextView>
+    <ScrollView
+        android:layout_width="367dp"
+        android:layout_height="539dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.473"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.421">
+
+        <TextView
+            android:id="@+id/article"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="15sp"></TextView>
+    </ScrollView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

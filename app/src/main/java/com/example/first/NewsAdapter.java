@@ -129,22 +129,27 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         holder.newsPublishTime.setText(news.getPublishTime());
         if(news.getType() > 0 && news.getCover() != "") {
             Glide.with(context)
-                    .load("/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv/assets/" + news.getCover())
+                    .load("R.drawable." + news.getCover())
+//                    .load("/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv/assets/" + news.getCover())
                     .into(holder.newsImage);
         }
         if(news.getCovers().size() > 0) {
             for(int i = 0; i < news.getCovers().size(); ++i) Log.d("image", news.getCovers().get(i));
             Glide.with(context)
-                    .load("/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv/assets/" + news.getCovers().get(0))
+                    .load("R.drawable.tb09_01")
+//                    .load("/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv/assets/" + news.getCovers().get(0))
                     .into(holder.newsImage1);
             Glide.with(context)
-                    .load("/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv/assets/" + news.getCovers().get(1))
+                    .load("R.drawable.tb09_02")
+//                    .load("/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv/assets/" + news.getCovers().get(1))
                     .into(holder.newsImage2);
             Glide.with(context)
-                    .load("/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv/assets/" + news.getCovers().get(2))
+                    .load("R.drawable.tb09_03")
+//                    .load("/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv/assets/" + news.getCovers().get(2))
                     .into(holder.newsImage3);
             Glide.with(context)
-                    .load("/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv/assets/" + news.getCovers().get(3))
+                    .load("R.drawable.tb09_04")
+//                    .load("/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv/assets/" + news.getCovers().get(3))
                     .into(holder.newsImage4);
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -161,6 +166,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                     Intent intent = new Intent(v.getContext(), AccessArticleActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("id", newsList.get(position).getId());
+                    bundle.putString("title", newsList.get(position).getTitle());
+                    bundle.putString("author", newsList.get(position).getAuthor());
+                    bundle.putString("publishTime", newsList.get(position).getPublishTime());
                     intent.putExtras(bundle);
                     v.getContext().startActivity(intent);
                 }

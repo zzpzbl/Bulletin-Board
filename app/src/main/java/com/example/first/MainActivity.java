@@ -119,9 +119,12 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void initNews() throws FileNotFoundException, UnsupportedEncodingException {
-        File JSONFile = new File("/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv/assets/metadata.json");
-        FileReader fileReader = new FileReader(JSONFile);
-        Reader reader = new InputStreamReader(new FileInputStream(JSONFile), "utf-8");
+//        File JSONFile = new File("/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv/assets/metadata.json");
+//        FileReader fileReader = new FileReader(JSONFile);
+
+//        Reader reader = new InputStreamReader(new FileInputStream(JSONFile), "utf-8");
+        Reader reader;
+        reader = new InputStreamReader(getResources().openRawResource(R.raw.metadata), "UTF-8");
         int ch = 0;
         String jsonStr = "";
         StringBuffer stringBuffer = new StringBuffer();
@@ -129,7 +132,7 @@ public class MainActivity extends AppCompatActivity{
             while((ch = reader.read()) != -1) {
                 stringBuffer.append((char) ch);
             }
-            fileReader.close();
+//            fileReader.close();
             reader.close();
             jsonStr = stringBuffer.toString();
 //            com.alibaba.fastjson.JSONObject obj = JSON.parseObject(jsonStr);
