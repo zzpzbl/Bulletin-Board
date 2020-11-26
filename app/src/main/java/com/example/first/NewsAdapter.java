@@ -133,6 +133,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 //                    .load("/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv/assets/" + news.getCover())
                     .into(holder.newsImage);
         }
+
         if(news.getCovers().size() > 0) {
             for(int i = 0; i < news.getCovers().size(); ++i) Log.d("image", news.getCovers().get(i));
             Glide.with(context)
