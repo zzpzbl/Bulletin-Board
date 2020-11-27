@@ -60,8 +60,8 @@ public class AccessArticleActivity extends AppCompatActivity {
                     OkHttpClient client = new OkHttpClient();
                     Request request = new Request.Builder()
                             .url("https://vcapi.lvdaqian.cn/article/" + id)
-                            .addHeader("id", id)
-                            .addHeader("authorization", "Bearer" +  " " + preferences.getString("TOKEN", ""))
+                            .header("id", id)
+                            .header("authorization", "Bearer" +  " " + preferences.getString("TOKEN", ""))
                             .build();
                     Response response = null;
                     response = client.newCall(request).execute();
@@ -74,7 +74,7 @@ public class AccessArticleActivity extends AppCompatActivity {
                         AccessArticleActivity.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                article.setText(data);
+                                article.setText(data.substring(137));
                             }
                         });
                     } else {

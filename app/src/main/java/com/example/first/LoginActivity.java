@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         et_password.addTextChangedListener(new HideTextWatcher(et_password));
         this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
         findViewById(R.id.btn_login).setOnClickListener(this);
-
+        findViewById(R.id.btn_register).setOnClickListener(this);
     }
     
     private class HideTextWatcher implements TextWatcher {
@@ -157,7 +157,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.btn_login) {
+        if(v.getId() == R.id.btn_login || v.getId() == R.id.btn_register) {
             Log.v("login ", "success");
             sendRequestWithHttpURLConnection();
         }

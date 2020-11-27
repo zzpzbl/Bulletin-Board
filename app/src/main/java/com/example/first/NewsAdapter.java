@@ -128,28 +128,44 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         holder.newsAuthor.setText(news.getAuthor());
         holder.newsPublishTime.setText(news.getPublishTime());
         if(news.getType() > 0 && news.getCover() != "") {
-            Glide.with(context)
-                    .load("R.drawable." + news.getCover())
+            Log.e("newspic", news.getCover() + "555");
+            if(news.getCover().equals("tancheng.jpg")) {
+                Log.e("pic", "onBindViewHolder: ");
+                Glide.with(context)
+                        .load(R.mipmap.tancheng)
 //                    .load("/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv/assets/" + news.getCover())
-                    .into(holder.newsImage);
+                        .into(holder.newsImage);
+            }
+            if(news.getCover().equals("event_02.png")) {
+                Glide.with(context)
+                        .load(R.mipmap.event_02)
+//                    .load("/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv/assets/" + news.getCover())
+                        .into(holder.newsImage);
+            }
+            if(news.getCover().equals("teambuilding_04.png")) {
+                Glide.with(context)
+                        .load(R.mipmap.teambuilding_04)
+//                    .load("/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv/assets/" + news.getCover())
+                        .into(holder.newsImage);
+            }
         }
 
         if(news.getCovers().size() > 0) {
             for(int i = 0; i < news.getCovers().size(); ++i) Log.d("image", news.getCovers().get(i));
             Glide.with(context)
-                    .load("R.drawable.tb09_01")
+                    .load(R.mipmap.tb09_1)
 //                    .load("/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv/assets/" + news.getCovers().get(0))
                     .into(holder.newsImage1);
             Glide.with(context)
-                    .load("R.drawable.tb09_02")
+                    .load(R.mipmap.tb09_2)
 //                    .load("/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv/assets/" + news.getCovers().get(1))
                     .into(holder.newsImage2);
             Glide.with(context)
-                    .load("R.drawable.tb09_03")
+                    .load(R.mipmap.tb09_3)
 //                    .load("/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv/assets/" + news.getCovers().get(2))
                     .into(holder.newsImage3);
             Glide.with(context)
-                    .load("R.drawable.tb09_04")
+                    .load(R.mipmap.tb09_4)
 //                    .load("/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv/assets/" + news.getCovers().get(3))
                     .into(holder.newsImage4);
         }
