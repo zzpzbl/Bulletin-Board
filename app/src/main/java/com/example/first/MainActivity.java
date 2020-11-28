@@ -32,7 +32,16 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import com.alibaba.fastjson.JSON;
-
+import com.youth.banner.Banner;
+import com.youth.banner.adapter.BannerImageAdapter;
+import com.youth.banner.holder.BannerImageHolder;
+import com.youth.banner.config.BannerConfig;
+import com.youth.banner.config.IndicatorConfig;
+import com.youth.banner.indicator.CircleIndicator;
+import com.youth.banner.indicator.RectangleIndicator;
+import com.youth.banner.indicator.RoundLinesIndicator;
+import com.youth.banner.util.BannerUtils;
+import com.youth.banner.util.LogUtils;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -41,11 +50,15 @@ import java.util.List;
 import static android.widget.NumberPicker.OnScrollListener.SCROLL_STATE_IDLE;
 
 public class MainActivity extends AppCompatActivity{
+    Banner banner;
 
     private List<News> newsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -72,7 +85,7 @@ public class MainActivity extends AppCompatActivity{
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
-        final NewsAdapter adapter = new NewsAdapter(this, newsList);
+        final NewsRecycleAdapter adapter = new NewsRecycleAdapter(this, newsList);
         //对 recyclerview 进行监听，提升滑动流畅度
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
