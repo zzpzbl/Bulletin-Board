@@ -28,7 +28,7 @@
             android:layout_marginRight="35dp"
             android:layout_weight="1"
             android:gravity="left|center"
-            android:textColor="@color/red"
+            android:textColor="@color/slategrey"
             android:textSize="18sp" />
 
         <LinearLayout

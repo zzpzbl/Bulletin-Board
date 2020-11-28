@@ -89,7 +89,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void sendRequestWithHttpURLConnection() {
+    public void sendRequestWithHttpURLConnection() {
         String username = et_username.toString();
         String password = et_password.toString();
         OkHttpClient client = new OkHttpClient();
@@ -140,13 +140,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         }
                         editor.apply();
                         String token = preferences.getString("TOKEN", "");
-                        Log.e("Token", token + " ");
+//                        Log.e("Token", token + " ");
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intent);
                     } else {
                         Log.v("zms", "sb");
                     }
-
                 }
                 else {
                     Log.e("zms","failed");
@@ -159,6 +158,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         if(v.getId() == R.id.btn_login || v.getId() == R.id.btn_register) {
             Log.v("login ", "success");
+            SharedPreferences.Editor editor = null;
+            //获取haredPreferences.Editor对象，尝试写数据
+            editor = preferences.edit();
+            editor.putString("USERNAME", et_username.toString());
+            editor.putString("PASSWORD", et_password.toString());
             sendRequestWithHttpURLConnection();
         }
     }

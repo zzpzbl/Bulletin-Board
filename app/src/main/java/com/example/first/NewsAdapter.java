@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -43,8 +44,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     private List<News> newsList;
     private SharedPreferences preferences;
 
+    List<ImageView> imageViewsList;
+
     protected boolean isScrolling = false;
-////
 
     public void setScrolling(boolean scrolling) {
         isScrolling = scrolling;
@@ -64,10 +66,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         TextView newsTitle;
         ImageView newsImage;
         TextView newsPublishTime;
-        ImageView newsImage1;
-        ImageView newsImage2;
-        ImageView newsImage3;
-        ImageView newsImage4;
+        LinearLayout linearLayout;
 
         public ViewHolder(View view) {
             super(view);
@@ -76,10 +75,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             newsTitle = (TextView) view.findViewById(R.id.newsTitle);
             newsImage = (ImageView) view.findViewById(R.id.newsImage);
             newsPublishTime=(TextView) view.findViewById(R.id.newsPublishTime);
-            newsImage1 = (ImageView) view.findViewById(R.id.imageView1);
-            newsImage2 = (ImageView) view.findViewById(R.id.imageView2);
-            newsImage3 = (ImageView) view.findViewById(R.id.imageView3);
-            newsImage4 = (ImageView) view.findViewById(R.id.imageView4);
+            linearLayout = view.findViewById(R.id.linearLayout3);
         }
     }
 
@@ -128,53 +124,29 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         holder.newsAuthor.setText(news.getAuthor());
         holder.newsPublishTime.setText(news.getPublishTime());
         if(news.getType() > 0 && news.getCover() != "") {
-            Log.e("newspic", news.getCover() + "555");
-            if(news.getCover().equals("tancheng.jpg")) {
-                Log.e("pic", "onBindViewHolder: ");
-                Glide.with(context)
-                        .load(R.mipmap.tancheng)
+            String cover = news.getCover().substring(0, news.getCover().length() - 4);
+            Glide.with(context)
+                    .load(context.getResources().getIdentifier(cover, "drawable", context.getPackageName()))
 //                    .load("/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv/assets/" + news.getCover())
-                        .into(holder.newsImage);
-            }
-            if(news.getCover().equals("event_02.png")) {
-                Glide.with(context)
-                        .load(R.mipmap.event_02)
-//                    .load("/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv/assets/" + news.getCover())
-                        .into(holder.newsImage);
-            }
-            if(news.getCover().equals("teambuilding_04.png")) {
-                Glide.with(context)
-                        .load(R.mipmap.teambuilding_04)
-//                    .load("/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv/assets/" + news.getCover())
-                        .into(holder.newsImage);
-            }
+                    .into(holder.newsImage);
         }
 
         if(news.getCovers().size() > 0) {
-            for(int i = 0; i < news.getCovers().size(); ++i) Log.d("image", news.getCovers().get(i));
-            Glide.with(context)
-                    .load(R.mipmap.tb09_1)
+            for(int i = 0; i < news.getCovers().size(); ++i) {
+                Log.d("image", news.getCovers().get(i));
+                String cover = news.getCovers().get(i).substring(0, news.getCovers().get(i).length() - 4);
+                Log.d("cover", cover);
+                Glide.with(context)
+                        .load(context.getResources().getIdentifier(cover, "drawable", context.getPackageName()))
 //                    .load("/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv/assets/" + news.getCovers().get(0))
-                    .into(holder.newsImage1);
-            Glide.with(context)
-                    .load(R.mipmap.tb09_2)
-//                    .load("/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv/assets/" + news.getCovers().get(1))
-                    .into(holder.newsImage2);
-            Glide.with(context)
-                    .load(R.mipmap.tb09_3)
-//                    .load("/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv/assets/" + news.getCovers().get(2))
-                    .into(holder.newsImage3);
-            Glide.with(context)
-                    .load(R.mipmap.tb09_4)
-//                    .load("/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv/assets/" + news.getCovers().get(3))
-                    .into(holder.newsImage4);
+                        .into((ImageView) holder.linearLayout.getChildAt(i));
+            }
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                preferences.edit().clear().commit();
                 String token = preferences.getString("TOKEN", "");
-                Log.e("TOKENnnnnn", token);
                 //如果 token 为空，那么进入登录页面，否则进入文章页面
                 if(token.equals("")) {
                     Intent intent = new Intent(v.getContext(), LoginActivity.class);

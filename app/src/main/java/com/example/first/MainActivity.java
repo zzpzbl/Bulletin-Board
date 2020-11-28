@@ -7,12 +7,18 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.ItemDecoration;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -65,8 +71,7 @@ public class MainActivity extends AppCompatActivity{
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.addItemDecoration(new DividerItemDecoration(
-                MainActivity.this, DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
         final NewsAdapter adapter = new NewsAdapter(this, newsList);
         //对 recyclerview 进行监听，提升滑动流畅度
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -168,8 +173,6 @@ public class MainActivity extends AppCompatActivity{
         }catch (IOException | JSONException e) {
             e.printStackTrace();
         }
-
-        Log.v("TAGgggggg", Environment.getExternalStorageDirectory().getAbsolutePath());
     }
 }
 
