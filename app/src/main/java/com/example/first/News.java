@@ -10,6 +10,7 @@ public class News {
     private int type;
     private String cover;
     private List<String> covers;
+    private  Integer imageid;
 
     public News() {
     }
@@ -45,6 +46,10 @@ public class News {
     public List<String> getCovers() {
         return covers;
     }
+
+    public Integer getimgagid() {return imageid;}
+
+    public void setImageid(Integer imageid) { this.imageid=imageid;}
 
     public void setId(String id) {
         this.id = id;
