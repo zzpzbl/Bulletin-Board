@@ -151,9 +151,9 @@ public class AccessArticleActivity extends AppCompatActivity {
                                                 try {
 //                                                    drawable = drawableFromUrl(source);
                                                     drawable = getResources().getDrawable(id);
-                                                    Log.d("height", String.valueOf(drawable.getIntrinsicHeight()));
-                                                    Log.d("width", String.valueOf(drawable.getIntrinsicWidth()));
-                                                    drawable.setBounds(0, 0, screenWidth, drawable.getIntrinsicHeight() * screenWidth / drawable.getIntrinsicWidth());
+                                                    Log.d("height", String.valueOf(screenHeight));
+                                                    Log.d("width", String.valueOf(screenWidth));
+                                                    drawable.setBounds(0, 0, screenWidth - 60, drawable.getIntrinsicHeight() * (screenWidth - 60) / drawable.getIntrinsicWidth());
                                                 } catch (Exception e) {
                                                     Log.w("wwww", "can't get image", e);
                                                     drawable = new ColorDrawable(Color.LTGRAY);

@@ -54,10 +54,6 @@ public class NewsRecycleAdapter extends RecyclerView.Adapter {
         TextView newsTitle;
         ImageView newsImage;
         TextView newsPublishTime;
-        ImageView newsImage1;
-        ImageView newsImage2;
-        ImageView newsImage3;
-        ImageView newsImage4;
 
         public ViewHolder(View view) {
             super(view);
@@ -75,10 +71,6 @@ public class NewsRecycleAdapter extends RecyclerView.Adapter {
         TextView newsAuthor;
         TextView newsTitle;
         TextView newsPublishTime;
-        ImageView newsImage1;
-        ImageView newsImage2;
-        ImageView newsImage3;
-        ImageView newsImage4;
 
         public MyBannerHolder(View view) {
             super(view);
@@ -128,7 +120,7 @@ public class NewsRecycleAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         News news = newsList.get(position);
         ViewHolder holder2=null;
         MyBannerHolder holder3=null;
@@ -148,24 +140,12 @@ public class NewsRecycleAdapter extends RecyclerView.Adapter {
         }
 
         if(news.getType() > 0 && news.getCover() != "") {
-            if(news.getCover().equals("tancheng.jpg")) {
-                Glide.with(context)
-                        .load(R.mipmap.tancheng)
+            String cover = news.getCover().substring(0, news.getCover().length() - 4);
+            Glide.with(context)
+                    .load(context.getResources().getIdentifier(cover, "drawable", context.getPackageName()))
 //                    .load("/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv/assets/" + news.getCover())
-                        .into(holder2.newsImage);
-            }
-            if(news.getCover().equals("event_02.png")) {
-                Glide.with(context)
-                        .load(R.mipmap.event_02)
-//                    .load("/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv/assets/" + news.getCover())
-                        .into(holder2.newsImage);
-            }
-            if(news.getCover().equals("teambuilding_04.png")) {
-                Glide.with(context)
-                        .load(R.mipmap.teambuilding_04)
-//                    .load("/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv/assets/" + news.getCover())
-                        .into(holder2.newsImage);
-            }
+                    .into(holder2.newsImage);
+//        }
         }
 
         if(news.getCovers().size() > 0) {
@@ -175,7 +155,7 @@ public class NewsRecycleAdapter extends RecyclerView.Adapter {
             newsList.get(2).setImageid(R.mipmap.tb09_3);
             newsList.get(3).setImageid(R.mipmap.tb09_4);
             newsList.get(4).setImageid(R.mipmap.tb09_1);
-            banner.setAdapter(new  ImageNetAdapter(context,newsList));
+            banner.setAdapter(new ImageNetAdapter(context,newsList));
             banner.setIndicator(new RoundLinesIndicator(context));
             banner.setIndicatorSelectedWidth((int) BannerUtils.dp2px(15));
         }

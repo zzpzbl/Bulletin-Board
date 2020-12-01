@@ -40,7 +40,5 @@ public class ImageNetAdapter extends BannerAdapter<News, ImageHolder> {
                 .load(news.getimgagid())
 //                    .load("/storage/emulated/0/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv/assets/" + news.getCovers().get(0))
                 .into(holder.newsImage);
-
-
     }
 }
