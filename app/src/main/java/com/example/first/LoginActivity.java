@@ -89,7 +89,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    public void sendRequestWithHttpURLConnection() {
+    public void sendRequestWithOkHttpURLConnection() {
         String username = et_username.toString();
         String password = et_password.toString();
         OkHttpClient client = new OkHttpClient();
@@ -163,7 +163,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             editor = preferences.edit();
             editor.putString("USERNAME", et_username.toString());
             editor.putString("PASSWORD", et_password.toString());
-            sendRequestWithHttpURLConnection();
+            sendRequestWithOkHttpURLConnection();;
         }
     }
 }

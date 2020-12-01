@@ -81,7 +81,7 @@ public class AccessArticleActivity extends AppCompatActivity {
         title.setText(bundle.getString("title"));
         author.setText(bundle.getString("author"));
         publishTime.setText(bundle.getString("publishTime"));
-        sendRequestWithHttpURLConnection(id);
+        sendRequestWithOkHttpURLConnection(id);
     }
 
     public static String removeCharAt(String s, int pos) {
@@ -89,7 +89,7 @@ public class AccessArticleActivity extends AppCompatActivity {
         return s.substring(0, pos) + s.substring(pos + 1);// 使用substring()方法截取0-pos之间的字符串+pos之后的字符串，相当于将要把要删除的字符串删除
     }
 
-    private void sendRequestWithHttpURLConnection(final String id) {
+    private void sendRequestWithOkHttpURLConnection(final String id) {
         String token = preferences.getString("TOKEN", "");
         //开启线程来发起网络请求
         new Thread(new Runnable() {
@@ -134,7 +134,7 @@ public class AccessArticleActivity extends AppCompatActivity {
                             public void run() {
 //                                article.setText(data.substring(10));
                                 Log.e("pkm", "qifei");
-                                final InputStream stream = new ByteArrayInputStream(data.substring(10).getBytes());
+                                final InputStream stream = new ByteArrayInputStream(data.substring(137).getBytes());
                                 article.post(new Runnable() {
                                     @Override
                                     public void run() {
